@@ -4,8 +4,8 @@ import tools
 
 st.title('Molestream')
 st.write("gcp_service_account:", st.secrets["gcp_service_account"]["project_id"])
-'''
 df_gsheet = tools.spotifyGoogleSheet()
+'''
 df_artist= df_gsheet.groupby('artist').count()
 del df_artist['title']
 df_artist = df_artist.sort_values(by=['played'], ascending=False)

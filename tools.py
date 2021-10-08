@@ -11,6 +11,7 @@ def spotifyGoogleSheet() :
             "https://www.googleapis.com/auth/spreadsheets",
         ],
     )
+    '''
     conn = connect(credentials=credentials)
 
     # Perform SQL query on the Google Sheet.
@@ -24,4 +25,5 @@ def spotifyGoogleSheet() :
     rows = run_query(f'SELECT played,title,artist FROM "{sheet_url}"')
 
     df = pd.DataFrame(rows)
-    return df
+    '''
+    return 0
