@@ -11,12 +11,11 @@ def spotifyGoogleSheet() :
             "https://www.googleapis.com/auth/spreadsheets",
         ],
     )
-    '''
     conn = connect(credentials=credentials)
 
     # Perform SQL query on the Google Sheet.
     # Uses st.cache to only rerun when the query changes or after 10 min.
-    @st.cache(ttl=600)
+#    @st.cache(ttl=600)
     def run_query(query):
         rows = conn.execute(query, headers=1)
         return rows
@@ -25,5 +24,5 @@ def spotifyGoogleSheet() :
     rows = run_query(f'SELECT played,title,artist FROM "{sheet_url}"')
 
     df = pd.DataFrame(rows)
-    '''
-    return 0
+ 
+    return df
