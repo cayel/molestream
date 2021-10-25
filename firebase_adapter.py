@@ -22,7 +22,7 @@ def movie_collection_to_panda():
             'databaseURL': st.secrets["moleskine_database_url"]
         })
 
-    # Then get the data at that reference.
+    # Get the data at that reference.
     movies = db.reference('movies').get()
     movies_list = transform_collection(movies)
 
