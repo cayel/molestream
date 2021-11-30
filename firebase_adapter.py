@@ -4,6 +4,7 @@ from firebase_admin import credentials
 from firebase_admin import db
 import streamlit as st
 import logging
+import datetime as dt
 
 def convert_date_firebase(date):
     return pd.Timestamp(date, unit='ms')
@@ -16,7 +17,7 @@ def transform_collection(movies):
         new_movies.append(movies[movie_user])
     return new_movies
 
-def movie_collection_to_panda(user):
+def movie_collection_to_panda2(user):
     if not firebase_admin._apps:
         cred = credentials.Certificate(st.secrets["firebase_service_account"])
         firebase_admin.initialize_app(cred, options={
@@ -39,3 +40,21 @@ def movie_collection_to_panda(user):
                 i+=1
 
     return df_movies
+
+def movie_collection_to_panda(user):
+    if not firebase_admin._apps:
+        cred = credentials.Certificate(st.secrets["firebase_service_account"])
+        firebase_admin.initialize_app(cred, options={
+            'databaseURL': st.secrets["moleskine_database_url"]
+        })
+        
+    # Get the data at that reference.
+    movies = db.reference('movies/'+user).get()
+    
+    data = []
+    for key in movies:
+        data.append(movies[key])
+    df = pd.DataFrame(data)
+    df['releaseDate'] = df['releaseDate'].apply(lambda x: convert_date_firebase(x))
+    df['date'] = df['date'].apply(lambda x: convert_date_firebase(x))
+    return df
