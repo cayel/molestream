@@ -21,7 +21,7 @@ def spotifyGoogleSheet() :
         return rows
 
     sheet_url = st.secrets["private_gsheets_url"]
-    rows = run_query(f'SELECT played,title,artist FROM "{sheet_url}"')
+    rows = run_query(f'SELECT played,title,artist,spotifyId FROM "{sheet_url}"')
 
     df = pd.DataFrame(rows)
  
@@ -44,5 +44,5 @@ def get_google_datasheet(sheet_url) :
         rows = conn.execute(query, headers=1)
         return rows
 
-    rows = run_query(f'SELECT played,title,artist FROM "{sheet_url}"')
+    rows = run_query(f'SELECT played,title,artist,spotifyId FROM "{sheet_url}"')
     return rows

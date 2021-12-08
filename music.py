@@ -2,6 +2,7 @@
 import streamlit as st
 import pandas as pd
 import tools
+from mitosheet import *
 
 def load_data():
     data = tools.spotifyGoogleSheet()
@@ -24,3 +25,13 @@ def app():
     st.header('Played by month')
     st.line_chart(df_played_by_month[['title']])
 
+    # Most played songs
+    # Pivoted df into df2    
+    tmp_groupby_df = df_gsheet.groupby(['spotifyId']).agg(spotifyId_size=('spotifyId', 'size')).reset_index()
+    df = df_gsheet.merge(tmp_groupby_df, on=['spotifyId'])
+    df = df.drop_duplicates(subset=['spotifyId'], keep='first')
+    df = df.sort_values(by=['spotifyId_size'], ascending=[False])
+    df = df.drop(columns=['spotifyId','played'])
+    df = df.rename(columns={'spotifyId_size': 'count'})
+    st.header('Most played songs')    
+    st.table(df.head(10))
