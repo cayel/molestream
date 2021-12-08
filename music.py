@@ -2,7 +2,6 @@
 import streamlit as st
 import pandas as pd
 import tools
-from mitosheet import *
 
 def load_data():
     data = tools.spotifyGoogleSheet()
